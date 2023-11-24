@@ -1,1 +1,257 @@
+import gym
+import numpy as np
+
+class HierarchicalTaxiAgent:
+    def __init__(self, action_space):
+        self.action_space = action_space
+        # Estado para controlar la secuencia de tareas
+        self.task_sequence = ['navigate', 'pickup', 'navigate', 'dropoff']
+        self.current_task_index = 0
+        self.destination = None
+
+    def _navigate(self, state, env):
+        taxi_row, taxi_col, passenger_location, destination = env.decode(state)
+
+        # Determinar la fila y columna del destino
+        if self.current_task_index in [0, 2]:  # Tareas de navegación
+            if self.destination < 4:  # Destinos de recogida
+                destination_row, destination_col = env.locs[self.destination]
+            else:  # Destinos de entrega
+                destination_row, destination_col = env.locs[destination]
+        else:  # Si no es una tarea de navegación, realizar una acción aleatoria
+            return self.action_space.sample()
+
+        # Calcular la diferencia en fila y columna
+        row_diff = destination_row - taxi_row
+        col_diff = destination_col - taxi_col
+
+        # Elegir acción basada en la diferencia
+        if row_diff > 0:
+            return 2  # Mover hacia el sur
+        elif row_diff < 0:
+            return 1  # Mover hacia el norte
+        if col_diff > 0:
+            return 3  # Mover hacia el este
+        elif col_diff < 0:
+            return 0  # Mover hacia el oeste
+
+        # Si no es necesario moverse, realizar una acción aleatoria
+        return self.action_space.sample()
+
+
+
+    def _update_destination(self, state, env):
+        # Esta función actualiza el destino del taxi en función del estado y la tarea actual
+        taxi_row, taxi_col, passenger_location, destination = env.decode(state)
+        if self.task_sequence[self.current_task_index] == 'navigate':
+            if passenger_location < 4:
+                self.destination = passenger_location
+            else:
+                self.destination = destination
+
+    def select_action(self, state, env):
+        self._update_destination(state, env)
+        current_task = self.task_sequence[self.current_task_index]
+
+        if current_task == 'navigate':
+            action = self._navigate(state, env)
+            taxi_row, taxi_col, passenger_location, _ = env.decode(state)
+            # Comprobar si el taxi ha llegado al destino actual
+            if self.destination == passenger_location or self.destination == (taxi_row, taxi_col):
+                self.current_task_index += 1  # Avanzar a la siguiente tarea
+        elif current_task == 'pickup':
+            action = 4  # Acción de recoger al pasajero
+            self.current_task_index += 1  # Avanzar a la siguiente tarea
+        elif current_task == 'dropoff':
+            action = 5  # Acción de dejar al pasajero
+            self.current_task_index = 0  # Reiniciar la secuencia de tareas
+
+        return action
+
+def run_episode(env, agent):
+    state = env.reset()
+    done = False
+    total_reward = 0
+
+    while not done:
+        action = agent.select_action(state, env)
+        state, reward, done, _ = env.step(action)
+        total_reward += reward
+
+    return total_reward
+
+env = gym.make('Taxi-v3')
+agent = HierarchicalTaxiAgent(env.action_space)
+
+# Ejecutar experimentos y recoger datos
+total_rewards = []
+for episode in range(100):
+    total_reward = run_episode(env, agent)
+    total_rewards.append(total_reward)
+
+# Análisis de los resultados
+average_reward = np.mean(total_rewards)
+print(f"Recompensa promedio en 100 episodios: {average_reward}")
+
+
+import gym
+import numpy as np
+import random
+from collections import defaultdict
+
+
+import gym
+import numpy as np
+import random
+from collections import defaultdict
+
+class LowLevelAgent:
+    def __init__(self, action_space, learning_rate=0.1, discount_factor=0.99):
+        self.action_space = action_space
+        self.q_table = defaultdict(lambda: np.zeros(action_space.n))
+        self.learning_rate = learning_rate
+        self.discount_factor = discount_factor
+
+    def learn(self, state, action, reward, next_state):
+        # Q-learning update
+        best_next_action = np.argmax(self.q_table[next_state])
+        td_target = reward + self.discount_factor * self.q_table[next_state][best_next_action]
+        td_error = td_target - self.q_table[state][action]
+        self.q_table[state][action] += self.learning_rate * td_error
+
+    def select_action(self, state, epsilon=0.1):
+        # Epsilon-greedy policy for action selection
+        if random.uniform(0, 1) < epsilon:
+            return self.action_space.sample()
+        else:
+            return np.argmax(self.q_table[state])
+
+# Crear el entorno y el agente
+env = gym.make('Taxi-v3')
+agent = LowLevelAgent(env.action_space)
+
+# Función para ejecutar un episodio
+def run_episode(env, agent, epsilon=0.1):
+    state = env.reset()
+    total_reward = 0
+    done = False
+
+    while not done:
+        action = agent.select_action(state, epsilon)
+        next_state, reward, done, info = env.step(action)
+        agent.learn(state, action, reward, next_state)
+        state = next_state
+        total_reward += reward
+
+    return total_reward
+
+# Entrenar al agente
+total_episodes = 1000
+total_rewards = []
+
+for episode in range(total_episodes):
+    total_reward = run_episode(env, agent)
+    total_rewards.append(total_reward)
+
+# Análisis de los resultados
+average_reward = np.mean(total_rewards)
+print(f"Recompensa promedio en {total_episodes} episodios: {average_reward}")
+
+
+# Ejemplo de uso
+# action_space = env.action_space  # Esto se obtendría del entorno Gym
+# low_level_agent = LowLevelAgent(action_space)
+
+
+def run_episode(env, high_level_agent, low_level_agents):
+    state = env.reset()
+    done = False
+    total_reward = 0
+
+    while not done:
+        high_level_action = high_level_agent.select_action(state)
+        low_level_agent = low_level_agents[high_level_action]
+        
+        # Ejecutar acciones de bajo nivel y aprender
+        action = low_level_agent.select_action(state)
+        next_state, reward, done, _ = env.step(action)
+        low_level_agent.learn(state, action, reward, next_state)
+
+        state = next_state
+        total_reward += reward
+
+    return total_reward
+
+env = gym.make('Taxi-v3')
+low_level_agents = [LowLevelAgent(env.action_space) for _ in range(2)]  # Ejemplo: Dos agentes de bajo nivel
+high_level_agent = HighLevelAgent(low_level_agents)
+
+# Ejecutar experimentos y recoger datos
+total_rewards = []
+for episode in range(1000):  # Aumentar para un entrenamiento efectivo
+    total_reward = run_episode(env, high_level_agent, low_level_agents)
+    total_rewards.append(total_reward)
+
+# Análisis de los resultados
+average_reward = np.mean(total_rewards)
+print(f"Recompensa promedio en 1000 episodios: {average_reward}")
+
+
+import gym
+import numpy as np
+import random
+from collections import defaultdict
+
+class LowLevelAgent:
+    def __init__(self, action_space, task, learning_rate=0.1, discount_factor=0.99, epsilon=0.1):
+        self.action_space = action_space
+        self.task = task
+        self.q_table = defaultdict(lambda: np.zeros(action_space.n))
+        self.learning_rate = learning_rate
+        self.discount_factor = discount_factor
+        self.epsilon = epsilon
+
+    def learn(self, state, action, reward, next_state):
+        # Actualización de Q-learning
+        best_next_action = np.argmax(self.q_table[next_state])
+        td_target = reward + self.discount_factor * self.q_table[next_state][best_next_action]
+        td_error = td_target - self.q_table[state][action]
+        self.q_table[state][action] += self.learning_rate * td_error
+
+    def select_action(self, state):
+        # Política epsilon-greedy para la selección de acciones
+        if random.uniform(0, 1) < self.epsilon:
+            return self.action_space.sample()
+        else:
+            return np.argmax(self.q_table[state])
+
+# Crear el entorno y los agentes
+env = gym.make('Taxi-v3')
+agents = [LowLevelAgent(env.action_space, task) for task in range(4)]
+
+# Ejemplo de función para ejecutar un episodio con un agente específico
+def run_episode_for_task(env, agent, task):
+    state = env.reset()
+    total_reward = 0
+    done = False
+
+    while not done:
+        action = agent.select_action(state)
+        next_state, reward, done, info = env.step(action)
+
+        # Modificar la recompensa para la tarea específica, si es necesario
+        modified_reward = reward  # Aquí se puede modificar la recompensa según la tarea
+
+        agent.learn(state, action, modified_reward, next_state)
+        state = next_state
+        total_reward += reward
+
+    return total_reward
+
+# Ejemplo de entrenamiento de un agente para una tarea específica
+for episode in range(1000):
+    task = 0  # Cambiar esto para entrenar para diferentes tareas
+    total_reward = run_episode_for_task(env, agents[task], task)
+    # Aquí se puede imprimir o almacenar la recompensa total para análisis
+
 
