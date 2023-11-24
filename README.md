@@ -11,7 +11,7 @@ Este proyecto se ha realizado como trabajo final de la asignatura de Aprendizaje
 
 <h4>Integrantes</h4>
 Daniel Cabrera Rodríguez
-
+Adrián Várez García
 ...
 
 ...
