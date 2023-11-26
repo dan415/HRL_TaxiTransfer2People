@@ -3,3 +3,6 @@ gym==0.26.1
 gymnasium==0.28.1
 numpy==1.26.0
 gym-toytext==0.26.1
+tqdm==4.65.0
+plotly==5.18
+kaleido==0.2.1

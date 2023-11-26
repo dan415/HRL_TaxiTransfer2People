@@ -22,7 +22,12 @@ Usamos Python 3.10
 
 
 Con conda:
+Cambia el valor de "Prefix" en el fichero environment.yml a la ruta donde anaconda guarda los entornos virtuales.
 
+
+En mi caso sería /home/dani/anaconda3/envs/refuerzo310
+
+Normalmente, el entorno se creará en la ruta /home/{username}/anaconda3/envs/refuerzo310
 ```bash
 conda create -f environment.yml
 ```
