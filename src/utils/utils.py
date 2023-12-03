@@ -14,7 +14,7 @@ def moving_average(x, n=100):
 
 def save_training(experiment_name, config, table, rewards, n=100, show_plot=False):
     fig = make_learning_plot(experiment_name, rewards, n=n, show_plot=show_plot)
-    suffix = datetime.datetime.now().strftime('%Y-%m-%d:%H:%M:%S')
+    suffix = datetime.datetime.now().strftime('%Y-%m-%d--%H-%M-%S')
     experiment_path = os.path.join(PROJECT_DIR, "res", experiment_name, suffix)
     os.makedirs(experiment_path, exist_ok=True)
 
