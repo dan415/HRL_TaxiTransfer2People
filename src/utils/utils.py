@@ -18,9 +18,15 @@ def save_training(experiment_name, config, table, rewards, n=100, show_plot=Fals
     experiment_path = os.path.join(PROJECT_DIR, "res", experiment_name, suffix)
     os.makedirs(experiment_path, exist_ok=True)
 
-    path = os.path.join(experiment_path, f"qtable.npy")
-    with open(path, "wb") as f:
-        np.save(f, table)
+    if isinstance(table, np.matrix):
+        path = os.path.join(experiment_path, f"qtable.npy")
+        with open(path, "wb") as f:
+            np.save(f, table)
+    elif isinstance(table, dict):
+        for k, v in table.items():
+            path = os.path.join(experiment_path, f"{k}.npy")
+            with open(path, "wb") as f:
+                np.save(f, v)
 
     path = os.path.join(experiment_path, f"plot.html")
     fig.write_html(path)

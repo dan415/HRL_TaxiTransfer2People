@@ -7,7 +7,7 @@ import gymnasium as gym
 import numpy as np
 from src.utils.utils import save_training
 
-PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../.."))
+PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../.."))
 EXPERIMENT = "qlearning"
 EXPERIMENT_FOLDER = os.path.join(PROJECT_DIR, "res", EXPERIMENT)
 
