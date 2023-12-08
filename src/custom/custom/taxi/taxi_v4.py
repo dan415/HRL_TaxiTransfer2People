@@ -149,7 +149,7 @@ class Taxi2PEnv(Env):
                         for dest_idx1 in range(len(locs)):
                             for dest_idx2 in range(len(locs)):
                                 state = self.encode(row, col, pass_idx1, pass_idx2, dest_idx1, dest_idx2)
-                                if pass_idx1 < 4 and pass_idx1 != dest_idx1 or pass_idx2 < 4 and pass_idx2 != dest_idx2:
+                                if (pass_idx1 < 4 and pass_idx1 != dest_idx1) and (pass_idx2 < 4 and pass_idx2 != dest_idx2):
                                     self.initial_state_distrib[state] += 1
                                 for action in range(num_actions):
                                     # defaults
@@ -169,24 +169,26 @@ class Taxi2PEnv(Env):
                                     elif action == 3 and self.desc[1 + row, 2 * col] == b":":
                                         new_col = max(col - 1, 0)
                                     elif action == 4:  # pickup
-                                        if pass_idx1 < 4 and taxi_loc == locs[pass_idx1]:
+                                        # if (taxi_loc == locs[dest_idx1] and pass_idx2 != dest_idx1 and pass_idx1 == dest_idx1) or (
+                                        #     taxi_loc == locs[dest_idx2] and pass_idx1 != dest_idx2 and pass_idx2 == dest_idx2):
+                                        #     reward = -20
+                                        if pass_idx1 < 4 and taxi_loc == locs[pass_idx1] and pass_idx1 != dest_idx1:
                                             new_pass_idx1 = 4
-                                        elif pass_idx2 < 4 and taxi_loc == locs[pass_idx2]:
+                                        elif pass_idx2 < 4 and taxi_loc == locs[pass_idx2] and pass_idx2 != dest_idx2:
                                             new_pass_idx2 = 4
-                                        else:  # passenger not at location
+                                        else:  # passenger not at location or destination already reached
                                             reward = -10
                                     elif action == 5:  # dropoff
                                         if (taxi_loc == locs[dest_idx1]) and pass_idx1 == 4:
                                             new_pass_idx1 = dest_idx1
-                                            reward = 20
-                                            if pass_idx2 == dest_idx2:
-                                                terminated = True
+                                            reward = 10
                                         if (taxi_loc == locs[dest_idx2]) and pass_idx2 == 4:
                                             new_pass_idx2 = dest_idx2
+                                            reward = 10
+                                        if (new_pass_idx1 == dest_idx1 and new_pass_idx2 == dest_idx2):
                                             reward = 20
-                                            if pass_idx1 == dest_idx1:
-                                                terminated = True
-                                        elif (taxi_loc in locs) and pass_idx1 == 4 or pass_idx2 == 4:
+                                            terminated = True
+                                        elif (taxi_loc in locs) and (pass_idx1 == 4 or pass_idx2 == 4):
                                             if pass_idx1 == 4:
                                                 new_pass_idx1 = locs.index(taxi_loc)
                                             if pass_idx2 == 4:
@@ -428,11 +430,7 @@ class Taxi2PEnv(Env):
 
         taxi_row, taxi_col, pass_idx1, pass_idx2, dest_idx1, dest_idx2 = self.decode(self.s)
 
-        if pass_idx1 < 4:
-            self.window.blit(self.passenger1_img, self.get_surf_loc(self.locs[pass_idx1]))
 
-        if pass_idx2 < 4:
-            self.window.blit(self.passenger2_img, self.get_surf_loc(self.locs[pass_idx2]))
 
         if self.lastaction in [0, 1, 2, 3]:
             self.taxi_orientation = self.lastaction
@@ -466,6 +464,12 @@ class Taxi2PEnv(Env):
                 self.destination2_img,
                 (dest2_loc[0], dest2_loc[1] - self.cell_size[1] // 2),
             )
+
+        if pass_idx1 < 4:
+            self.window.blit(self.passenger1_img, self.get_surf_loc(self.locs[pass_idx1]))
+
+        if pass_idx2 < 4:
+            self.window.blit(self.passenger2_img, self.get_surf_loc(self.locs[pass_idx2]))
 
         if mode == "human":
             pygame.display.update()

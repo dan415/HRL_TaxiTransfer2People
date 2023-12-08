@@ -53,7 +53,6 @@ def decode_taxi2P(state):
     assert 0 <= state < 5
     return reversed(out)
 
-
 def translate(state, person):
     taxi_row, taxi_col, pass_loc1, pass_loc2, dest_idx1, dest_idx2 = decode_taxi2P(state)
     if person == 1:

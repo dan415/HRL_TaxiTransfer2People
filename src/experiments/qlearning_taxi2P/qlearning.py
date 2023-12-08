@@ -1,12 +1,12 @@
 import argparse
 import os
 import random
-
+from custom.taxi.taxi_v4 import Taxi2PEnv
+import gym
 from tqdm import tqdm
-import gymnasium as gym
+
 import numpy as np
 from src.utils.utils import save_training
-from src.environment.taxi_v4 import *
 
 PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../.."))
 EXPERIMENT = "qlearning_taxi2P"
@@ -45,8 +45,14 @@ def train(show_plot=False):
         epsilon = np.exp(-decay_rate * episode)
         rewards.append(reward)
     else:
-        save_training(experiment_name=EXPERIMENT, config=config, table=qtable, rewards=rewards, n=100,
-                      show_plot=show_plot)
+        save_training(
+            experiment_name=EXPERIMENT,
+            config=config,
+            table=qtable,
+            rewards=rewards,
+            n=100,
+            show_plot=show_plot
+        )
 
 
 def test():
@@ -54,13 +60,12 @@ def test():
     rewards = 0
 
     for s in range(steps):
-
         action = np.argmax(qtable[state, :])
         state, reward, terminated, truncated, info = env.step(action)
         done = truncated or terminated
         rewards += reward
         env.render()
-        print(f"\rScore: {rewards}", end="")
+        print(f"\rScore: {rewards}, Action {action}", end="")
         if done:
             break
 
@@ -68,11 +73,11 @@ def test():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--qtable", type=str, default=None)
-    parser.add_argument("--episodes", type=int, default=1000)
-    parser.add_argument("--steps", type=int, default=100)
-    parser.add_argument("--learning_rate", type=float, default=0.9)
+    parser.add_argument("--episodes", type=int, default=5000)
+    parser.add_argument("--steps", type=int, default=400)
+    parser.add_argument("--learning_rate", type=float, default=0.5)
     parser.add_argument("--discount_rate", type=float, default=0.8)
-    parser.add_argument("--decay_rate", type=float, default=0.005)
+    parser.add_argument("--decay_rate", type=float, default=0.0075)
     parser.add_argument("--show_plot", action="store_true")
     args = parser.parse_args()
     do_train = True
@@ -99,7 +104,7 @@ if __name__ == '__main__':
         qtable = np.load(os.path.join(EXPERIMENT_FOLDER, args.qtable))
         do_train = False
 
-    env = gym.make("Taxi2p-v1", render_mode="human" if render_training or not do_train else None)
+    env = gym.make("custom/Taxi-v1.3", render_mode="human" if render_training or not do_train else None)
     state_size = env.observation_space.n
     action_size = env.action_space.n
     qtable = np.zeros((state_size, action_size))
@@ -107,7 +112,7 @@ if __name__ == '__main__':
     if do_train:
         train(show_plot=show_plot)
         env.close()
-        env = gym.make("Taxi2p-v1", render_mode="human")
+        env = gym.make("custom/Taxi-v1.3", render_mode="human")
 
     test()
     env.close()

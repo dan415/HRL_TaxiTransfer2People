@@ -41,3 +41,23 @@ Aquí, conviene que primero crees un entorno virtual con venv
 ```bash
 pip install -r requirements.txt
 ```
+
+
+Instalación del entorno Taxi extendido a dos personas:
+
+
+(Si no estás en la carpeta src)
+```bash
+cd src
+```
+
+Luego: 
+```bash
+pip install -e custom
+```
+
+Para aplicar modificaciones al entorno, actualiza la versión en el fichero src/custom/taxi/__init__.py
+y ejecuta:
+```bash
+pip install -e custom --force-reinstall
+```

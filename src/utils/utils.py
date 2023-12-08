@@ -18,7 +18,7 @@ def save_training(experiment_name, config, table, rewards, n=100, show_plot=Fals
     experiment_path = os.path.join(PROJECT_DIR, "res", experiment_name, suffix)
     os.makedirs(experiment_path, exist_ok=True)
 
-    if isinstance(table, np.matrix):
+    if isinstance(table, np.ndarray):
         path = os.path.join(experiment_path, f"qtable.npy")
         with open(path, "wb") as f:
             np.save(f, table)

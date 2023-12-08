@@ -1,7 +1,7 @@
 jupyter==1.0.0
 gym==0.26.1
 gymnasium==0.28.1
-"gymnsasium[toy-text]"==0.28.1
+"gymnasium[toy-text]"==0.28.1
 numpy==1.26.0
 tqdm==4.65.0
 plotly==5.18
