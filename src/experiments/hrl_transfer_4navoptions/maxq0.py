@@ -240,7 +240,7 @@ class HRLAgent2P:
                 else:
                     state_prime = self.state_prime_lowd
 
-                self.frozen = action < self.FETCH_CLIENT1
+                self.frozen = action < self.ROOT
                 if not self.frozen:
                     self.C[action, state, action_prime] += self.alpha * (
                             (self.gamma ** N) * self.V(action, state_prime) - self.C[action, state, action_prime])
