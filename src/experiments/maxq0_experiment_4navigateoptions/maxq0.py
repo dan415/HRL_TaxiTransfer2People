@@ -170,12 +170,19 @@ class HRLAgent:
 
     def run(self, episodes, steps, render_training=False, show_plot=False):
         rewards = []
-
+        rewards_test = []
         for j in tqdm(range(episodes), colour="green", desc="episode", position=0):
+            # if j == 5000:
+            #     print('fitted')
             state, info = self.env.reset()
             self.train()
             count = self.max_q(self.ROOT, state)
             rewards.append(agent.reward)
+
+            self.eval()
+            state, info = self.env.reset()
+            _ = self.max_q(self.ROOT, state)
+            rewards_test.append(agent.reward)
         else:
             self.fitted = True
             save_training(
@@ -194,6 +201,7 @@ class HRLAgent:
                     "ctable": self.C
                 },
                 rewards=rewards, n=100,
+                test_rewards=rewards_test,
                 show_plot=show_plot
             )
 

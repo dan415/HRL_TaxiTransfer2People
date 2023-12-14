@@ -31,6 +31,7 @@ def learning_step(env, state, epsilon):
 
 def train(show_plot=False):
     rewards = []
+    rewards_test = []
     epsilon = 1.0
     reward = 0
     for episode in tqdm(range(episodes), colour="green", desc="episode", position=0):
@@ -44,6 +45,9 @@ def train(show_plot=False):
                 break
         epsilon = np.exp(-decay_rate * episode)
         rewards.append(reward)
+
+        rewards_test.append(test())
+
     else:
         save_training(
             experiment_name=EXPERIMENT,
@@ -51,7 +55,8 @@ def train(show_plot=False):
             table=qtable,
             rewards=rewards,
             n=100,
-            show_plot=show_plot
+            show_plot=show_plot,
+            test_rewards=rewards_test
         )
 
 
@@ -68,6 +73,7 @@ def test():
         print(f"\rScore: {rewards}, Action {action}", end="")
         if done:
             break
+    return rewards
 
 
 if __name__ == '__main__':
@@ -104,7 +110,7 @@ if __name__ == '__main__':
         qtable = np.load(os.path.join(EXPERIMENT_FOLDER, args.qtable))
         do_train = False
 
-    env = gym.make("custom/Taxi-v1.3", render_mode="human" if render_training or not do_train else None)
+    env = gym.make("custom/Taxi-v1.7", render_mode="human" if render_training or not do_train else None)
     state_size = env.observation_space.n
     action_size = env.action_space.n
     qtable = np.zeros((state_size, action_size))
@@ -112,7 +118,7 @@ if __name__ == '__main__':
     if do_train:
         train(show_plot=show_plot)
         env.close()
-        env = gym.make("custom/Taxi-v1.3", render_mode="human")
+        env = gym.make("custom/Taxi-v1.7", render_mode="human")
 
     test()
     env.close()

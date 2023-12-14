@@ -30,6 +30,7 @@ def learning_step(env, state, epsilon):
 
 def train(show_plot=False):
     rewards = []
+    rewards_test = []
     epsilon = 1.0
     reward = 0
     for episode in tqdm(range(episodes), colour="green", desc="episode", position=0):
@@ -43,9 +44,12 @@ def train(show_plot=False):
                 break
         epsilon = np.exp(-decay_rate * episode)
         rewards.append(reward)
+
+        rewards_test.append(test())
+
     else:
         save_training(experiment_name=EXPERIMENT, config=config, table=qtable, rewards=rewards, n=100,
-                      show_plot=show_plot)
+                      show_plot=show_plot, test_rewards=rewards_test)
 
 
 def test():
@@ -62,6 +66,8 @@ def test():
         print(f"\rScore: {rewards}", end="")
         if done:
             break
+
+    return rewards
 
 
 if __name__ == '__main__':

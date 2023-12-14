@@ -12,8 +12,8 @@ def moving_average(x, n=100):
     return (cumsum[n:] - cumsum[:-n]) / float(n)
 
 
-def save_training(experiment_name, config, table, rewards, n=100, show_plot=False):
-    fig = make_learning_plot(experiment_name, rewards, n=n, show_plot=show_plot)
+def save_training(experiment_name, config, table, rewards, n=100, show_plot=False, test_rewards=None):
+    fig = make_learning_plot(experiment_name, rewards, n=n, show_plot=show_plot, test_rewards=test_rewards)
     suffix = datetime.datetime.now().strftime('%Y-%m-%d--%H-%M-%S')
     experiment_path = os.path.join(PROJECT_DIR, "res", experiment_name, suffix)
     os.makedirs(experiment_path, exist_ok=True)
@@ -39,7 +39,7 @@ def save_training(experiment_name, config, table, rewards, n=100, show_plot=Fals
         json.dump(config, f, default=str, indent=4)
 
 
-def make_learning_plot(experiment, rewards, n=1000, show_plot=False):
+def make_learning_plot(experiment, rewards, n=1000, show_plot=False, test_rewards=None):
     # scatter = go.Scatter(
     #     x=np.arange(len(rewards)),
     #     y=rewards,
@@ -47,6 +47,16 @@ def make_learning_plot(experiment, rewards, n=1000, show_plot=False):
     #     name='episodes',
     #     marker=dict(color='#a1d9f7')
     # )
+
+    if test_rewards is not None:
+        scatter = go.Scatter(
+            x=np.arange(len(test_rewards)),
+            y=test_rewards,
+            mode='lines',
+            name='test episodes',
+            marker=dict(color='#f7a1a1')
+        )
+        rewards = test_rewards
 
     moving_avg = go.Scatter(
         x=np.arange(n, len(rewards)),
@@ -62,7 +72,10 @@ def make_learning_plot(experiment, rewards, n=1000, show_plot=False):
         title=f'{experiment}'
     )
 
-    fig = go.Figure(data=[moving_avg], layout=layout)
+    if test_rewards is not None:
+        fig = go.Figure(data=[scatter, moving_avg], layout=layout)
+    else:
+        fig = go.Figure(data=[moving_avg], layout=layout)
 
     if show_plot:
         fig.show()
