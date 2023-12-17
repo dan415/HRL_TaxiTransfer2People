@@ -51,7 +51,7 @@ def make_learning_plot(experiment, rewards, n=1000, show_plot=False, test_reward
     if test_rewards is not None:
         scatter = go.Scatter(
             x=np.arange(len(test_rewards)),
-            y=test_rewards,
+            y=moving_average(test_rewards),
             mode='lines',
             name='test episodes',
             marker=dict(color='#f7a1a1')
