@@ -46,7 +46,7 @@ def train(show_plot=False):
         epsilon = np.exp(-decay_rate * episode)
         rewards.append(reward)
 
-        rewards_test.append(test())
+        rewards_test.append(test(render=False))
 
     else:
         save_training(
@@ -60,7 +60,7 @@ def train(show_plot=False):
         )
 
 
-def test():
+def test(render=True):
     state, info = env.reset()
     rewards = 0
 
@@ -69,7 +69,8 @@ def test():
         state, reward, terminated, truncated, info = env.step(action)
         done = truncated or terminated
         rewards += reward
-        env.render()
+        if render:
+            env.render()
         print(f"\rScore: {rewards}, Action {action}", end="")
         if done:
             break
@@ -79,7 +80,7 @@ def test():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--qtable", type=str, default=None)
-    parser.add_argument("--episodes", type=int, default=5000)
+    parser.add_argument("--episodes", type=int, default=50000)
     parser.add_argument("--steps", type=int, default=400)
     parser.add_argument("--learning_rate", type=float, default=0.5)
     parser.add_argument("--discount_rate", type=float, default=0.8)
@@ -120,5 +121,5 @@ if __name__ == '__main__':
         env.close()
         env = gym.make("custom/Taxi-v1.7", render_mode="human")
 
-    test()
+    test(render=True)
     env.close()

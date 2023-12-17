@@ -63,7 +63,7 @@ def make_learning_plot(experiment, rewards, n=1000, show_plot=False, test_reward
         y=moving_average(rewards),
         mode='lines',
         marker=dict(color='blue'),
-        name=f'moving average of last {n} episodes'
+        name=f'Train curve'
     )
 
     layout = go.Layout(
