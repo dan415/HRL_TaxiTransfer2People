@@ -54,7 +54,7 @@ def make_learning_plot(experiment, rewards, n=1000, show_plot=False, test_reward
             y=moving_average(test_rewards),
             mode='lines',
             name='test episodes',
-            marker=dict(color='#f7a1a1')
+            marker=dict(color='red')
         )
         rewards = test_rewards
 
@@ -62,6 +62,7 @@ def make_learning_plot(experiment, rewards, n=1000, show_plot=False, test_reward
         x=np.arange(n, len(rewards)),
         y=moving_average(rewards),
         mode='lines',
+        marker=dict(color='blue'),
         name=f'moving average of last {n} episodes'
     )
 
