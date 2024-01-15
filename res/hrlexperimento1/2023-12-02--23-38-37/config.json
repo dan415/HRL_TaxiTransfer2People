@@ -1,9 +1,0 @@
-{
-    "learning_rate": 0.9,
-    "discount_rate": 0.8,
-    "decay_rate": 0.005,
-    "episodes": 1000,
-    "steps": 100,
-    "render_training": false,
-    "show_plot": false
-}
