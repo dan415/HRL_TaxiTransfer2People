@@ -182,7 +182,7 @@ class Taxi2PEnv(Env):
                                         if (taxi_loc == locs[dest_idx1]) and pass_idx1 == 4:
                                             new_pass_idx1 = dest_idx1
                                             reward = 10
-                                        if (taxi_loc == locs[dest_idx2]) and pass_idx2 == 4:
+                                        elif (taxi_loc == locs[dest_idx2]) and pass_idx2 == 4:
                                             new_pass_idx2 = dest_idx2
                                             reward = 10
                                         if (new_pass_idx1 == dest_idx1 and new_pass_idx2 == dest_idx2):
