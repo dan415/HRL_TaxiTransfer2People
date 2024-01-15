@@ -1,13 +1,15 @@
 name: refuerzo310
 channels:
   - defaults
+  - conda-forge
 dependencies:
   - python=3.10
-  - gym
-  - gymnasium
-  - jupyter
-  - numpy
-  - gym-toy_text
-  - tqdm
-  - plotly
-prefix: /home/dani/anaconda3/envs/refuerzo310
+  - numpy==1.26.2
+  - gym-toy_text=0.26.1
+  - plotly=5.18.0
+  - pip:
+    - gym==0.26.1
+    - gymnasium==0.28.1
+    - seaborn==0.13.0
+    - kaleido=0.2.1
+    - tqdm==4.66.1
