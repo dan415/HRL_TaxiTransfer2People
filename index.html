@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" /><link rel="canonical" href="https://hrl_taxi2people.readthedocs.io/index.html" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Deliverables AI Open Science</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Home";
+        var mkdocs_page_input_path = "README.md";
+        var mkdocs_page_url = "/index.html";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="index.html" class="icon icon-home"> Deliverables AI Open Science
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="index.html">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="custom/rationale.html">2 People Taxi Environment</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">QLearning</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="experiments/qlearning/1person/rationale.md">1 Person</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="experiments/qlearning/2people/rationale.md">2 Person</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">HRL</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">1 Person</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="experiments/hrl/1person/2navoptions/rationale.md">2 Navigation Options</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="experiments/hrl/1person/4navoptions/rationale.md">4 Navigation Options</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">2 People</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="experiments/hrl/2people/2navoptions/rationale.md">2 Navigation Options</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="experiments/hrl/2people/4navoptions/rationale.md">4 Navigation Options</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="LICENSE">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Deliverables AI Open Science</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html" class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Home</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2>Hierarchical Reinforcement Learning Method for OpenAI Gym's Taxi-v3 Environment.</h2>
+
+<h3>Introduction</h3>
+
+<p>This project has been developed as the final project for the Reinforcement Learning course in the Master's in Artificial Intelligence at Universidad Carlos III de Madrid.</p>
+<p>The research explores the performance of Hierarchical Reinforcement Learning (HRL) in comparison to the traditional approach of reinforcement learning, specifically in the OpenAI Gym Taxi environment (Brockman et al. 2016). In this case, it is suggested that applying a hierarchical structure in the learning process can significantly improve the agent's effectiveness and efficiency in solving tasks. Through systematic experiments and comparative evaluations, we demonstrate that the HRL approach achieves superior performance in terms of convergence time and final performance compared to traditional reinforcement learning methods, primarily for complex environments such as those involving multiple passengers. These results support the efficiency of the hierarchical approach in enhancing the agent's adaptability and decision-making capabilities in the specific context of the taxi problem. This work contributes to understanding the applicability and benefits of hierarchical reinforcement learning in practical environments.</p>
+<p>By transferring the learned hierarchy from a single-person problem to an extended version involving two people, we achieve a more robust learning of the task in fewer episodes compared to a strategy solely based on Q-Learning.</p>
+<p>The hierarchy extension involves treating GET and PUT tasks as parameterized tasks (p), analogous to what the original paper proposes for the Navigate task, where p represents the person on whom to perform the operation.</p>
+<p><img alt="img.png" src="img.png" /></p>
+<h3>Installation</h3>
+
+<p>Python version used: 3.10</p>
+<p>Using conda:</p>
+<pre><code class="language-bash">conda create -f environment.yml
+cd src
+pip install -e custom
+</code></pre>
+<p>Using pip:</p>
+<pre><code class="language-bash">pip install -r requirements.txt
+cd src 
+pip install -e custom
+</code></pre>
+<h2>Author</h2>
+<p>Daniel Cabrera Rodríguez
+Github: @dan415</p>
+<h2>License</h2>
+<p>TODO</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="custom/rationale.html" class="btn btn-neutral float-right" title="2 People Taxi Environment">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+      <span><a href="custom/rationale.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.5.3
+Build Date UTC : 2024-01-19 16:29:08.323262+00:00
+-->

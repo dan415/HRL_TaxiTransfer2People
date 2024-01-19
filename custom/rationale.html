@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hrl_taxi2people.readthedocs.io/custom/rationale.html" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>2 People Taxi Environment - Deliverables AI Open Science</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "2 People Taxi Environment";
+        var mkdocs_page_input_path = "custom/rationale.md";
+        var mkdocs_page_url = "/custom/rationale.html";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../index.html" class="icon icon-home"> Deliverables AI Open Science
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="rationale.html">2 People Taxi Environment</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">QLearning</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../experiments/qlearning/1person/rationale.md">1 Person</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../experiments/qlearning/2people/rationale.md">2 Person</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">HRL</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">1 Person</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../experiments/hrl/1person/2navoptions/rationale.md">2 Navigation Options</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../experiments/hrl/1person/4navoptions/rationale.md">4 Navigation Options</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">2 People</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../experiments/hrl/2people/2navoptions/rationale.md">2 Navigation Options</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../experiments/hrl/2people/4navoptions/rationale.md">4 Navigation Options</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../LICENSE">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Deliverables AI Open Science</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html" class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">2 People Taxi Environment</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2>Taxi2PEnv</h2>
+
+<p>Taxi2PEnv is an extension of the classic Taxi-v3 environment. This modified environment supports two passengers, each with its own destination. The environment has 6 discrete deterministic actions:</p>
+<p>0: move south
+1: move north
+2: move east
+3: move west
+4: pickup passenger
+5: drop off passenger</p>
+<h3>Observation Space</h3>
+
+<p>There are 10.000 discrete states based on the taxi's position, passenger locations, and destinations.
+The state space is represented by the tuple (taxi_row, taxi_col, pass_loc1, pass_loc2, dest_idx1, dest_idx2).</p>
+<p>The original Taxi-v3 environment has a state space of 500 discrete states, represented by the tuple (taxi_row, taxi_col, pass_loc, dest_idx).
+Adding a new passenger implies adding a new destination to the environment, and a new passenger location. The passenger location
+can take any of the 5 values (R, G, Y, B, and in taxi), and the destination can take any of the 4 values (R, G, Y, B).
+Therefore, we would be incrementing the state space by 20 (5 * 4).</p>
+<h3>Action Space</h3>
+
+<p>There are 6 discrete deterministic actions, as described above.
+Rewards:</p>
+<ul>
+<li>-1 per step unless other rewards are triggered.</li>
+<li>+20 for delivering both passengers.</li>
+<li>-10 for executing "pickup" and "drop-off" actions illegally. It is considered illegal to pick up a passenger that has already been
+dropped off at their destination.</li>
+<li>+10 for delivering the first passenger.</li>
+</ul>
+<p>There is no restriction to the initialization of states, except for states where any of the passengers
+spawn inside the taxi or at their destination.</p>
+<h2>Translation of States</h2>
+<p>The translation of states between hierarchical levels is crucial during both state transitions and policy evaluation to maintain state integrity. The translation process is implemented as follows:</p>
+<p>Translation of states from the high dimensional space is done by selecting what passenger to translate the state for.
+Once the passenger is selected, the state is translated in the same way as Taxi-V3 environment. Encoding functions, as usually, need to be defined by all the state space attributes.</p>
+<p>These methods are provided as utils in the package:</p>
+<h3 id="encode_taxi1p">encode_taxi1P</h3>
+<p>Encodes the state of the environment for a single passenger.</p>
+<p><strong>Parameters:</strong>
+- <code>taxi_row</code> (int) – Row of the taxi
+- <code>taxi_col</code> (int) – Column of the taxi
+- <code>pass_loc</code> (int) – Location of the passenger
+- <code>dest_idx</code> (int) – Index of the destination</p>
+<p><strong>Returns:</strong>
+- <code>state</code> (int) – Encoded state</p>
+<h3 id="decode_taxi1p">decode_taxi1P</h3>
+<p>Decodes the state of the environment for a single passenger.</p>
+<p><strong>Parameters:</strong>
+- <code>state</code> (int) – Encoded state</p>
+<p><strong>Returns:</strong>
+Tuple of:
+- <code>taxi_row</code> (int) – Row of the taxi
+- <code>taxi_col</code> (int) – Column of the taxi
+- <code>pass_loc</code> (int) – Location of the passenger
+- <code>dest_idx</code> (int) – Index of the destination</p>
+<h3 id="encode_taxi2p">encode_taxi2P</h3>
+<p>Encodes the state of the environment for two passengers.</p>
+<p><strong>Parameters:</strong>
+- <code>taxi_row</code> (int) – Row of the taxi
+- <code>taxi_col</code> (int) – Column of the taxi
+- <code>pass_loc1</code> (int) – Location of the first passenger
+- <code>pass_loc2</code> (int) – Location of the second passenger
+- <code>dest_idx1</code> (int) – Index of the first destination
+- <code>dest_idx2</code> (int) – Index of the second destination</p>
+<p><strong>Returns:</strong>
+- <code>state</code> (int) – Encoded state</p>
+<h3 id="decode_taxi2p">decode_taxi2P</h3>
+<p>Decodes the state of the environment for two passengers.</p>
+<p><strong>Parameters:</strong>
+- <code>state</code> (int) – Encoded state</p>
+<p><strong>Returns:</strong>
+Tuple of:
+- <code>taxi_row</code> (int) – Row of the taxi
+- <code>taxi_col</code> (int) – Column of the taxi
+- <code>pass_loc1</code> (int) – Location of the first passenger
+- <code>pass_loc2</code> (int) – Location of the second passenger
+- <code>dest_idx1</code> (int) – Index of the first destination
+- <code>dest_idx2</code> (int) – Index of the second destination</p>
+<h3 id="translate">translate</h3>
+<p>Translates the state of the environment from the high dimensional space to the low dimensional space.</p>
+<p><strong>Parameters:</strong>
+- <code>state</code> (int) – Encoded state
+- <code>passenger</code> (int) – Passenger to translate the state for (it can be 1 or 2)</p>
+<p><strong>Returns:</strong>
+- <code>state</code> (int) – Translated encoded state in low dimensional space</p>
+<p>Note: The maximum number of steps allowed for this environment is set to 1000.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../LICENSE" class="btn btn-neutral float-right" title="About">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../index.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../LICENSE" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

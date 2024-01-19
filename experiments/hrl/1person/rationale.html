@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hrl_taxi2people.readthedocs.io/experiments/hrl/1person/rationale.html" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Rationale - Deliverables AI Open Science</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Rationale";
+        var mkdocs_page_input_path = "experiments/hrl/1person/rationale.md";
+        var mkdocs_page_url = "/experiments/hrl/1person/rationale.html";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../../index.html" class="icon icon-home"> Deliverables AI Open Science
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../custom/rationale.html">2 People Taxi Environment</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">QLearning</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../qlearning/1person/rationale.md">1 Person</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../qlearning/2people/rationale.md">2 Person</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">HRL</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">1 Person</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="2navoptions/rationale.md">2 Navigation Options</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="4navoptions/rationale.md">4 Navigation Options</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">2 People</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../2people/2navoptions/rationale.md">2 Navigation Options</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../2people/4navoptions/rationale.md">4 Navigation Options</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../LICENSE">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Deliverables AI Open Science</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html" class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Rationale</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2>Hierarchical Agent for Two Persons</h2>
+<p>The experiment implemented in this project is based on the Q-Learning algorithm, serving as a performance benchmark for Hierarchical Reinforcement Learning (HRL) agents. The HRL agents are designed to operate in an environment modeled after the Taxi problem, with a focus on hierarchical structures and task representation. The core Markov Decision Process (MDP) is denoted as "Root," overseeing the hierarchy.
+The algorithm used is MaxQ-0, which is a hierarchical extension of Q-Learning, with an Epsilon Greeedy policy without decay.</p>
+<h2>Task Representation</h2>
+<p>The experiment explores the representation of the "Navigate" task, a key component of the HRL framework. Previous works have proposed different parameterizations for the task, including representing the destination or passenger location. The implementation considers two options, with a primary emphasis on the representation where "f" corresponds to the place to navigate.</p>
+<h2>Complexity Considerations</h2>
+<p>The choice of task representation is influenced by a desire to minimize the cardinality of possible parameters. This is crucial, given that the "Navigate" task must be learned for each parameter, and increasing cardinality implies increased complexity. While an alternative representation is explored for its versatility, the primary focus is on the first option due to its potential for reduced training episodes.</p>
+<h2>Policy Implementation</h2>
+<p>Across all experiments, an Epsilon Greedy policy with a fixed epsilon value is employed during training. This policy guides the agent's exploration-exploitation trade-off throughout the learning process.</p>
+<h2>Termination Conditions</h2>
+<p>The termination conditions for tasks vary, with the "Root" task concluding when the episode is either successfully resolved or reaches the maximum number of iterations. The "Get" and "Put" tasks terminate based on the passenger's presence in the taxi. For the "Navigate" task, termination occurs when the taxi's coordinates match the target, and the passenger is either in or out of the taxi, depending on the task variant.</p>
+<h2>Command Line Arguments</h2>
+
+<ul>
+<li>
+<p>--experiment (type: str, default: None):
+Specifies the name of the experiment. If the experiment name doesn't start with "hrl_transfer2nav" or is not provided, the script assumes that training is required.</p>
+</li>
+<li>
+<p>--episodes (type: int, default: 10000):
+Sets the number of episodes for training or testing the agent.</p>
+</li>
+<li>
+<p>--steps (type: int, default: 300):
+Defines the maximum number of steps per episode.</p>
+</li>
+<li>
+<p>--alpha (type: float, default: 0.2):
+Sets the learning rate (alpha) for the agent. It determines how much the agent updates its Q-values based on new experiences.</p>
+</li>
+<li>
+<p>--gamma (type: float, default: 1):
+Sets the discount factor (gamma), which influences the importance of future rewards in the agent's decision-making.</p>
+</li>
+<li>
+<p>--epsilon (type: float, default: 0.004):
+Sets the exploration-exploitation factor (epsilon). It controls the likelihood of the agent choosing a random action instead of exploiting its current knowledge.</p>
+</li>
+<li>
+<p>--show_plot (action: store_true):
+When provided, this flag indicates that a plot of training and test rewards should be displayed after the experiment.</p>
+</li>
+<li>
+<p>--render_training (action: store_true):
+When provided, this flag indicates that the environment should be rendered during training.</p>
+</li>
+</ul>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
