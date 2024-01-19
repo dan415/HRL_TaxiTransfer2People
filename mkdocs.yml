@@ -1,0 +1,25 @@
+site_name: Deliverables AI Open Science
+site_url: https://hrl_taxi2people.readthedocs.io/
+site_description:
+
+theme:
+    name: readthedocs
+use_directory_urls: false
+nav:
+  - Home: README.md
+  - 2 People Taxi Environment: custom/rationale.md
+  - QLearning:
+      - 1 Person: experiments/qlearning/1person/rationale.md
+      - 2 Person: experiments/qlearning/2people/rationale.md
+  - HRL:
+      - 1 Person:
+          - 2 Navigation Options: experiments/hrl/1person/2navoptions/rationale.md
+          - 4 Navigation Options: experiments/hrl/1person/4navoptions/rationale.md
+      - 2 People:
+          - 2 Navigation Options: experiments/hrl/2people/2navoptions/rationale.md
+          - 4 Navigation Options: experiments/hrl/2people/4navoptions/rationale.md
+  - About : LICENSE
+
+extra:
+  author: Daniel Cabrera
+  email: danicr2515@gmail.com

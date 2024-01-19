@@ -15,7 +15,7 @@ EXPERIMENT_FOLDER = os.path.join(PROJECT_DIR, "res", EXPERIMENT)
 
 class HRLAgent:
 
-    def __init__(self, env, alpha, gamma, epsilon, render=False):
+    def __init__(self, env, alpha, gamma, epsilon,):
         self.fitted = False
         self.done = False
         self.frozen = False

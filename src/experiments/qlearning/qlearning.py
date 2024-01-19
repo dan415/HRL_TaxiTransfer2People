@@ -13,6 +13,15 @@ EXPERIMENT_FOLDER = os.path.join(PROJECT_DIR, "res", EXPERIMENT)
 
 
 def learning_step(env, state, epsilon):
+    """
+    Executes a learning step in the environment with a greedy policy
+
+    :param env: gym environment
+    :param state: current state
+    :param epsilon: exploration rate
+
+    :return: new_state, terminated, truncated, reward
+    """
     if render_training:
         env.render()
     if random.uniform(0, 1) < epsilon:
@@ -29,6 +38,13 @@ def learning_step(env, state, epsilon):
 
 
 def train(show_plot=False):
+    """
+    Trains the agent in the environment, saving the results
+
+    :param show_plot: if True, shows a plot of the rewards
+
+    :return: None
+    """
     rewards = []
     rewards_test = []
     epsilon = 1.0
@@ -53,6 +69,11 @@ def train(show_plot=False):
 
 
 def test():
+    """
+    Tests the agent in the environment, showing the results and rendering the environment
+
+    :return: rewards
+    """
     state, info = env.reset()
     rewards = 0
 
@@ -72,13 +93,13 @@ def test():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--qtable", type=str, default=None)
-    parser.add_argument("--episodes", type=int, default=1000)
-    parser.add_argument("--steps", type=int, default=100)
-    parser.add_argument("--learning_rate", type=float, default=0.9)
-    parser.add_argument("--discount_rate", type=float, default=0.8)
-    parser.add_argument("--decay_rate", type=float, default=0.005)
-    parser.add_argument("--show_plot", action="store_true")
+    parser.add_argument("--qtable", type=str, default=None, help="qtable to load, if passed, the agent will not train and will only test")
+    parser.add_argument("--episodes", type=int, default=1000, help="number of episodes")
+    parser.add_argument("--steps", type=int, default=100, help="number of steps per episode")
+    parser.add_argument("--learning_rate", type=float, default=0.9, help="learning rate")
+    parser.add_argument("--discount_rate", type=float, default=0.8, help="discount rate")
+    parser.add_argument("--decay_rate", type=float, default=0.005, help="decay rate")
+    parser.add_argument("--show_plot", action="store_true", help="Whether to show the plot at the end")
     args = parser.parse_args()
     do_train = True
 
