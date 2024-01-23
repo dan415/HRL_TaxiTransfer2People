@@ -1,6 +1,9 @@
 
 
-<h2>Hierarchical Reinforcement Learning Method for OpenAI Gym's Taxi-v3 Environment.</h2>
+<h2>Hierarchical Reinforcement Learning: Transfer of Learning from 1-person Task to 2-people Task</h2>
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10556868.svg)](https://doi.org/10.5281/zenodo.10556868)
+
 
 [Read the docs](https://hrl-taxitransfer2people.readthedocs.io/en/latest/)
 <h3>Introduction</h3>
