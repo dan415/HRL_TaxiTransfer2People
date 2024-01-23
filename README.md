@@ -2,6 +2,7 @@
 
 <h2>Hierarchical Reinforcement Learning Method for OpenAI Gym's Taxi-v3 Environment.</h2>
 
+[Read the docs](https://hrl-taxitransfer2people.readthedocs.io/en/latest/)
 <h3>Introduction</h3>
 
 This project has been developed as the final project for the Reinforcement Learning course in the Master's in Artificial Intelligence at Universidad Carlos III de Madrid.
